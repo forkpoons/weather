@@ -1,3 +1,0 @@
-test:
-  driver: mysql
-  open: user=admin dbname=test password=qwe123 sslmode=disable
