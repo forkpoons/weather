@@ -1,39 +1,41 @@
 package dbf
 
 import (
+	"github.com/forkpoons/weather/internal/dto"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"log"
+	"time"
 )
 
-type Forecasts struct {
-	Id       int
-	Date     string
-	Min, Max float64
-}
-
-func Qwe() {
+func PostForecasts(Forecasts []dto.Forecasts) {
 	db, err := sqlx.Connect("mysql", "admin:qwe123@tcp(localhost:3306)/test")
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	res, err := db.Exec("INSERT INTO forecasts (date, min, max) VALUES('2022-03-09',4,5 )")
-	if err != nil {
-		panic(err)
+	for _, f := range Forecasts {
+		res, err := db.Exec("INSERT INTO forecasts (requestDate, forecastDate, min, max) VALUES(?,?,?,?)", time.Now().Format("2006-01-02"), f.Date.Format("2006-01-02"), f.Min, f.Max)
+		if err != nil {
+			log.Printf("qwe")
+			log.Println(err)
+			return
+		}
+		_, err = res.LastInsertId()
+		if err != nil {
+			log.Printf("qwe")
+			log.Println(err)
+			return
+		}
 	}
-	_, err = res.LastInsertId()
 	if err != nil {
 		return
 	}
-	var forecast []Forecasts
+	var forecast []dto.ForecastsDb
 	err = db.Select(&forecast, "select * from forecasts")
 	if err != nil {
-		log.Println(err)
+		log.Fatalln(err)
 		return
 	}
 	log.Println(forecast)
-	if err != nil {
-		log.Fatalln(err)
-	}
 }

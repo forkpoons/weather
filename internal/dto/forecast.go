@@ -3,12 +3,14 @@ package dto
 import "time"
 
 type ForecastsDb struct {
-	RequestDate  string
-	ForecastDate string
-	Min, Max     float64
+	Id           int     `db:"id"`
+	RequestDate  string  `db:"requestDate"`
+	ForecastDate string  `db:"forecastDate"`
+	Min          float64 `db:"min"`
+	Max          float64 `db:"max"`
 }
 
 type Forecasts struct {
-	date     time.Time
-	min, max float64
+	Date     time.Time
+	Min, Max float64
 }
