@@ -1,7 +1,7 @@
 package main
 
-import "github.com/forkpoons/weather/service"
+import "github.com/forkpoons/weather/internal/service"
 
 func main() {
-	MakeRequest()
+	service.GetFiveForecasts()
 }
