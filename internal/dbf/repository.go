@@ -15,9 +15,14 @@ func PostForecasts(Forecasts []dto.Forecasts) {
 		return
 	}
 	for _, f := range Forecasts {
-		res, err := db.Exec("INSERT INTO forecasts (requestDate, forecastDate, min, max) VALUES(?,?,?,?)", time.Now().Format("2006-01-02"), f.Date.Format("2006-01-02"), f.Min, f.Max)
+		res, err := db.Exec(
+			"INSERT INTO forecasts (requestDate, forecastDate, min, max) VALUES(?,?,?,?)",
+			time.Now().Format("2006-01-02"),
+			f.Date.Format("2006-01-02"),
+			f.Min,
+			f.Max,
+		)
 		if err != nil {
-			log.Printf("qwe")
 			log.Println(err)
 			return
 		}
