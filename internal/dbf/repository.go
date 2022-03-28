@@ -18,7 +18,7 @@ func PostForecasts(Forecasts []dto.Forecasts) {
 		res, err := db.Exec(
 			"INSERT INTO forecasts (requestDate, forecastDate, min, max) VALUES(?,?,?,?)",
 			time.Now().Format("2006-01-02"),
-			f.Date.Format("2006-01-02"),
+			f.ForecastDate.Format("2006-01-02"),
 			f.Min,
 			f.Max,
 		)
@@ -33,9 +33,6 @@ func PostForecasts(Forecasts []dto.Forecasts) {
 			return
 		}
 	}
-	if err != nil {
-		return
-	}
 	var forecast []dto.ForecastsDb
 	err = db.Select(&forecast, "select * from forecasts")
 	if err != nil {
@@ -43,4 +40,17 @@ func PostForecasts(Forecasts []dto.Forecasts) {
 		return
 	}
 	log.Println(forecast)
+}
+
+func GetAllForecasts() {
+	db, err := sqlx.Connect("mysql", "admin:qwe123@tcp(localhost:3306)/test")
+	if err != nil {
+		return
+	}
+	var forecast []dto.ForecastsDb
+	err = db.Get(forecast, "SELECT * FROM forecasts")
+	if err != nil {
+		return
+	}
+
 }

@@ -11,6 +11,7 @@ type ForecastsDb struct {
 }
 
 type Forecasts struct {
-	Date     time.Time
-	Min, Max float64
+	RequestDate  time.Time
+	ForecastDate time.Time
+	Min, Max     float64
 }
